@@ -11,5 +11,14 @@
     <orderEntry type="library" name="json-20200518" level="project" />
     <orderEntry type="library" name="commons-io-2.8.0" level="project" />
     <orderEntry type="library" name="bin" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://D:/Programme/IntelliJ/Librarys/sqlite-jdbc-3.32.3.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

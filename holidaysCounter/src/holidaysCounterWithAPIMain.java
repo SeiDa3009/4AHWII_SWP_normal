@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,17 +33,23 @@ public class holidaysCounterWithAPIMain extends Application{
     final static String itemC = "Wednesday";
     final static String itemD = "Thursday";
     final static String itemE = "Friday";
+    static String filename = "holidayDates.db";
 
 
 
 
     public static void main(String[] args) throws JSONException, MalformedURLException, IOException {
         holidaysCounterWithAPIMain holidaysCounterMain = new holidaysCounterWithAPIMain();
+        holidaysCounterMain.dbFirstTime();
         holidaysCounterMain.InputStartYear();
         holidaysCounterMain.DataInList();
         holidaysCounterMain.checkIfFixedHoliday();
         holidaysCounterMain.showResults();
+        holidaysCounterMain.insert();
+        holidaysCounterMain.selectAll();
         launch(args);
+
+
     }
     private void InputStartYear(){
         System.out.print("Startyear: ");
@@ -131,4 +138,116 @@ public class holidaysCounterWithAPIMain extends Application{
         }
 
     }
+    void connect(){
+        Connection conn = null;
+        try {
+            String url = "jdbc:sqlite:C:/Users/david/OneDrive/Schule/4AHWII/SWP/SWP-Rubner/Normal_github/projects/holidaysCounter/holidayDates.db";
+            conn = DriverManager.getConnection(url);
+            System.out.println("Connected");
+        }
+        catch(SQLException e){
+            System.out.println("Error (SQL)");
+        }
+        finally {
+            try {
+                if(conn != null){
+                    conn.close();
+                }
+            }catch (SQLException ex){
+                System.out.println("Error (!=) ");
+            }
+        }
+
+    }
+    void createNewDatabase(){
+        String url = "jdbc:sqlite:C:/Users/david/OneDrive/Schule/4AHWII/SWP/SWP-Rubner/Normal_github/projects/holidaysCounter/" + filename;
+        try {
+            Connection conn = DriverManager.getConnection(url);
+            if(conn != null){
+                DatabaseMetaData meta = conn.getMetaData();
+                System.out.println("Driver name: " + meta.getDriverName());
+                System.out.println("A new DB has been created!");
+            }
+        }catch (SQLException e){
+            System.out.println("Error!");
+        }
+    }
+    void createNewTable(){
+        String url = "jdbc:sqlite:C:/Users/david/OneDrive/Schule/4AHWII/SWP/SWP-Rubner/Normal_github/projects/holidaysCounter/holidayDates.db";
+        String sql = "CREATE TABLE IF NOT EXISTS holidayDate(\n"
+                + "id integer PRIMARY KEY, \n"
+                + "monday integer, \n"
+                + "tuesday integer, \n"
+                + "wednesday integer, \n"
+                + "thursday integer, \n"
+                + "friday integer, \n"
+                + "years integer);";
+
+        try {
+            Connection conn = DriverManager.getConnection(url);
+            Statement stmt = conn.createStatement();
+            stmt.execute(sql);
+        }catch(SQLException e){
+            System.out.println("Error! (Table)");
+            System.out.println(e.getMessage());
+        }
+    }
+    Connection connectToDB(){
+        String url = "jdbc:sqlite:C:/Users/david/OneDrive/Schule/4AHWII/SWP/SWP-Rubner/Normal_github/projects/holidaysCounter/holidayDates.db";
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
+        }catch (SQLException e){
+            System.out.println("Error!");
+        }
+        return conn;
+    }
+    void insert(){
+        String sql = "INSERT INTO holidayDate(id, monday, tuesday, wednesday, thursday, friday, years) VALUES(?,?,?,?,?,?,?)";
+        try {
+            Connection conn = this.connectToDB();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, 1);
+            pstmt.setInt(2, monday);
+            pstmt.setInt(3, tuesday);
+            pstmt.setInt(4, wednesday);
+            pstmt.setInt(5, thursday);
+            pstmt.setInt(6, friday);
+            pstmt.setInt(7, years);
+
+            pstmt.executeUpdate();
+        }catch (SQLException e){
+            System.out.println("ERROR (INSERT)!");
+            System.out.println(e.getMessage());
+        }
+    }
+    void selectAll(){
+        String sql = "SELECT * FROM holidayDate";
+        try {
+            Connection conn = this.connectToDB();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()){
+                System.out.println(
+                        rs.getInt("id") + "\t" +
+                        rs.getInt("monday") + "\t" +
+                        rs.getInt("tuesday") + "\t" +
+                        rs.getInt("wednesday") + "\t" +
+                        rs.getInt("thursday") + "\t" +
+                        rs.getInt("friday") + "\t" +
+                        rs.getInt("years"));
+                }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+    private void dbFirstTime() {
+        connect();
+        createNewDatabase();
+        createNewTable();
+        connectToDB();
+
+    }
+
 }
