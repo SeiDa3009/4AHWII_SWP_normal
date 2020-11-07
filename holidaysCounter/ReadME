@@ -1,0 +1,15 @@
+-- Programm für das Zählen von Arbeitsfreien Tagen in Österreich --
+
+Die Informationen (Datum der freien Tagen) werden von einer API (https://date.nager.at/api/v2/PublicHolidays/"jahr"/AT) in das Programm importiert -> Methode DataInList
+In der Methode InputStartYear wird das Startjahr und die Anzahl der Jahre vom User festgelegt.
+Die Kontrolle an welchem Wochentag der Feiertag liegt findet in der Methode checkIfFixedHoliday.
+ShowResult gibt die Ergebnisse aus (Welche Wochentage wie viel Feiertage haben)
+JavaFX Aufgabe: findet in der Methode start statt.
+DB Anbindung mit SQLLite
+Die Methoden connect, createNewDatabase, createNewTable, connectToDB, insert, selectAll wurden für die DB-Aufgabe verwendet.
+Die Methode connect stellt eine Connection zur Erstellten DB her.
+createNewDatabase ist dazu da eine Datenbank zu Erstellen
+In der Methoden createNewTable wird eine Datenbank Tabelle mit dem entsprechenden Felder erstellt. 
+ConnectToDB ist einen Methode, die bei der insert Methode verwendet wird. 
+Die Insert Methode fügt die Werte (Wochentage, Anzahl Feiertage pro Wochentage) hinzu.
+SelectAll gibt anschließend die Werte aus der Datenbank in der Konsole wieder.
