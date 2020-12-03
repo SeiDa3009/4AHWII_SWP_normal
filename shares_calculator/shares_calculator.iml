@@ -8,16 +8,16 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
+    <orderEntry type="library" name="bin" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://D:/Programme/IntelliJ/Librarys" />
+          <root url="file://$MODULE_DIR$/../../../../../../../Librarys" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-        <jarDirectory url="file://D:/Programme/IntelliJ/Librarys" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/../../../../../../../Librarys" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="bin" level="project" />
   </component>
 </module>
