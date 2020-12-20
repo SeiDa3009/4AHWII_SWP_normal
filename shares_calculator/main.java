@@ -7,7 +7,10 @@ public class main {
     public static void main(String[] args) {
         methods m1 = new methods();
         try{
-            m1.dataGetter(m1.sharesSelect());               //Method, where the data will get implemented from the api
+            //Method, where the data will get implemented from the api
+            m1.dataGetter(m1.sharesSelect());
+            //Database
+            m1.db();
         }
         catch (IOException e){
             System.out.println(e.getMessage());

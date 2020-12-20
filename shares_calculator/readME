@@ -1,3 +1,11 @@
---This is a programm, which gets the shares from an API and will storaged in a database--
---Die genauen Beschreibungen stehen jeweils am Rand der Zeilen im Programm--
---Es wurden zwei Klassen (main, methods) erstellt--
+Das ist ein Programm, wo Aktienwerte von einer API herausgelesen werden und anschließend in eine Datenbank abgespeichert wird
+Zusätzlich wird der Benutzer gefragt was für einen gleitenden Durchschnitt er haben will (getLimit Methode)
+Mit dieser Methode wird zusätzlich die Ausgabe der Aktienwerte limitiert
+Mit den Befehlen:
+SELECT date, shares from share ORDER BY DATE DESC LIMIT + limit;
+SELECT avg(shares) from share ORDER BY DATE DESC LIMIT + limit;
+werden die Daten von der Datenbank herausgeschrieben.
+
+Zukünftiges: 
+Es muss noch ein JAVA FX Diagramm erstellt werden.
+
