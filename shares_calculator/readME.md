@@ -33,7 +33,7 @@ Ich wollte die Linien, die über dem gleitenden Durchschnitt liegen, grün färb
 Da muss ich mich allerdings noch mal erkundigen, wie ich das Lösen kann.
 
 Zu guter Letzt kommt noch das Beispielbild (IBM-Aktie):
-![.]()
+![.](https://github.com/SeiDa3009/4AHWII_SWP_normal/blob/master/shares_calculator/ExampleIBM.JPG)
 
 
 
