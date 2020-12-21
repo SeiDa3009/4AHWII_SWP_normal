@@ -3,7 +3,6 @@ package models;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,9 +15,9 @@ import java.util.Scanner;
 
 public class methods {
     private static String DBUrl;
-    private static String share;
-    private static float sharesAVG;
-    private static int limit;
+    public static String share;
+    private ArrayList<LocalDate> datesFinal = new ArrayList<>();
+    private ArrayList<Float> sharesFinal = new ArrayList<>();
     private static String filename = "jdbc:sqlite:D:/David/OneDrive/Schule/4AHWII/SWP/SWP-Rubner/Normal_github/Projekte/shares_calculator/shares.db";
     private static ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
     private static HashMap<LocalDate, String> sharesPerDates = new HashMap<>();
@@ -50,6 +49,12 @@ public class methods {
         return share;
     }
     private void connect() {
+        try {
+            dataGetter(sharesSelect());
+
+        }catch (IOException e){
+            e.getMessage();
+        }
         Connection conn = null;
         try {
             String url = filename;
@@ -116,19 +121,20 @@ public class methods {
         }
     }
         private void selectAllData(){
+            int  i = 0;
             int limit = getLimit();
             String sql = "SELECT date, shares FROM " + share + " ORDER BY DATE DESC LIMIT " +  limit;
             try{
                 Connection conn = this.connectTODB();
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
+                System.out.println("\n   Datum       Aktienwert ");
                 while (rs.next()) {
-                    System.out.println(rs.getDate("date") + "\t" + rs.getFloat("shares"));
+                    sharesFinal.add(rs.getFloat("shares"));
+                    datesFinal.add((rs.getDate("date").toLocalDate()));
+                    System.out.println(datesFinal.get(i) + "  |  " + sharesFinal.get(i));
+                    i++;
                 }
-
-                sql = "SELECT avg(shares) FROM " + share + " ORDER BY DATE DESC LIMIT " + limit;
-                ResultSet rst = stmt.executeQuery(sql);
-                sharesAVG = rst.getFloat("avg(shares)");
 
             }catch (SQLException e){
                 System.out.println("Error (SELECT)");
@@ -148,11 +154,29 @@ public class methods {
                 return 200;
             }
         }
+        public float getAVG(){
+            float sharesAVG = 0;
+            float sharesTemp = 0;
+            int count = 0;
+            for(int i = 0; i < sharesFinal.size(); i++){
+                sharesTemp = sharesTemp + sharesFinal.get(i);
+                count++;
+            }
+            sharesAVG = sharesTemp / (count);
+            return sharesAVG;
+        }
+        public ArrayList<Float> getShares(){
+            return sharesFinal;
+        }
+        public ArrayList<LocalDate> getDates(){
+            return datesFinal;
+        }
     public void db(){
         connect();
         createDatabase();
         createTable();
         insert();
         selectAllData();
+        getAVG();
     }
 }
