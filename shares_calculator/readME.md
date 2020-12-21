@@ -1,4 +1,4 @@
-#Aktien Auslesung und Bearbeitung
+# Aktien Auslesung und Bearbeitung
 Für das folgende Programm werden die Libraries verwendet:
 * [SQLite](https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc) 
 * [CommonsIO](https://mvnrepository.com/artifact/commons-io/commons-io) 
@@ -12,7 +12,7 @@ Anfangs findet ein API-Aufrauf statt (https://www.alphavantage.co/query?function
 Anschließend werden die Werte mithilfe von SQLite in eine Datenbank gespeichert.
 Als letzen Schritt wird ein JavaFX Liniendiagramm erstellt.
 
-#####Ausführung:
+##### Ausführung:
 Anfangs muss kommt eine Abfrage, welche Aktie herausgelesen werden soll (in diesem Fall IBM). 
 Anschließend wird die API aufgerufen und die herausgelesenen Werte werden sortiert in eine HASHMAP gespeichert.
 
@@ -28,7 +28,7 @@ Zum Schluss wird mit den Werten aus der Datenbank noch ein JAVAFX-Linechart erst
 Dieser stellt einmal die Close-Werte mit den Daten als Linie dar und einmal den gleitenden Durchschnitt als Linie dar.
 (Hier werden auch unnötige Listen verwendet, die ebenso in den Weihnachtsferien ausgebessert werden)
 
-#####Zusätzlich: 
+##### Zusätzlich: 
 Ich wollte die Linien, die über dem gleitenden Durchschnitt liegen, grün färben und die Linien, die unter dem gleitenden Durchschnitt liegen, rot färben.
 Da muss ich mich allerdings noch mal erkundigen, wie ich das Lösen kann.
 
