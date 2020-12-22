@@ -30,7 +30,9 @@ Dieser stellt einmal die Close-Werte mit den Daten als Linie dar und einmal den 
 
 ##### Zusätzlich: 
 Ich wollte die Linien, die über dem gleitenden Durchschnitt liegen, grün färben und die Linien, die unter dem gleitenden Durchschnitt liegen, rot färben.
-Da muss ich mich allerdings noch mal erkundigen, wie ich das Lösen kann.
+Da muss ich mich allerdings noch mal erkundigen, wie ich das Lösen kann. Ebenso habe ich nur den letzten Durchschnittswert berechnet, weil es für mich mehr Sinn gemacht hat. Allerdings habe ich mich jetzt schlau gelesen und hab herausgefunden,
+wie der richtige gleitende Durchschnitt berechnet wird.
+Dies wird natürlich auch in den Weihnachtsferien ausgebessert
 
 Zu guter Letzt kommt noch das Beispielbild (IBM-Aktie):
 ![.](https://github.com/SeiDa3009/4AHWII_SWP_normal/blob/master/shares_calculator/ExampleIBM.JPG)
