@@ -24,12 +24,12 @@ Anschließend werden die Werte (Close-Wert, Date, AVG) mit dem Befehl Select aus
 
 Zum Schluss wird mit den Werten aus der Datenbank (Select) noch ein JAVAFX-Linechart erstellt.
 Dieser stellt einmal die Close-Werte mit den Daten als Linie dar und einmal den gleitenden Durchschnitt als Linie dar.
+Dabei gilt ist die Close-Werte Linie grün, so handelt es sich um eine gute Aktie.
+Wenn diese Linie Rot ist, handelt es sich um eine schlecht Aktie.
 
-Zu guter Letzt kommen noch die Beispielbilder (Grün gut | Rot schlecht):
-* Grün
-![.](https://github.com/SeiDa3009/4AHWII_SWP_normal/blob/master/shares_calculator/ExampleGreen.JPG)
-* Rot
-![.](https://github.com/SeiDa3009/4AHWII_SWP_normal/blob/master/shares_calculator/ExampleRed.JPG)
+Zu guter Letzt kommen noch die Beispielbilder. 
+![Grün](https://github.com/SeiDa3009/4AHWII_SWP_normal/blob/master/shares_calculator/ExampleGreen.JPG)
+![Rot](https://github.com/SeiDa3009/4AHWII_SWP_normal/blob/master/shares_calculator/ExampleRed.JPG)
 
 
 
