@@ -11,14 +11,13 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 public class methods {
     private static String DBUrl;
     public static String share;
-    private ArrayList<LocalDate> datesFinal = new ArrayList<>();
-    private ArrayList<Float> sharesFinal = new ArrayList<>();
-    private static String filename = "jdbc:sqlite:D:/David/OneDrive/Schule/4AHWII/SWP/SWP-Rubner/Normal_github/Projekte/shares_calculator/shares.db";
+    public static String filename = "jdbc:sqlite:D:/David/OneDrive/Schule/4AHWII/SWP/SWP-Rubner/Normal_github/Projekte/shares_calculator/shares.db";
     private static ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
     private static HashMap<LocalDate, String> sharesPerDates = new HashMap<>();
     private static Scanner reader = new Scanner(System.in);
@@ -60,8 +59,9 @@ public class methods {
             String url = filename;
             conn = DriverManager.getConnection(url);
             System.out.println("Connected");
-        } catch (SQLException e) {
-            System.out.println("Error (SQL-Connect)");
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
     private void createDatabase(){
@@ -75,7 +75,6 @@ public class methods {
             }
         }
         catch (SQLException e){
-            System.out.println("Error (Database)");
             System.out.println(e.getMessage());
         }
     }
@@ -83,13 +82,13 @@ public class methods {
         String url = filename;
         String sql = "CREATE TABLE IF NOT EXISTS " + share + "(\n"
                 + "date date PRIMARY KEY UNIQUE, \n"
-                + "shares float);";
+                + "shares float, \n"
+                + "avg float);";
         try {
             Connection conn = DriverManager.getConnection(url);
             Statement stmt = conn.createStatement();
             stmt.execute(sql);
         }catch (SQLException e){
-            System.out.println("Error (Table)");
             System.out.println(e.getMessage());
         }
     }
@@ -99,84 +98,74 @@ public class methods {
         try {
             conn = DriverManager.getConnection(url);
         } catch (SQLException e){
-            System.out.println("Error (ConnectTODB)");
             System.out.println(e.getMessage());
         }
         return conn;
     }
     private void insert(){
-        String sql = "INSERT OR IGNORE INTO " + share +"(date, shares) VALUES (?,?)";
+        int movingAVG = getAverage();
+        int count = 1;
+        float temp = 0;
+        float avg = 0;
+        //Insert Or Ignore into wäre schneller, geht aber nicht, weil wir sonst nicht die avg row ändern können
+        String sql = "REPLACE INTO " + share +"(date, shares, avg) VALUES (?,?,?)";
         try {
             Connection conn = this.connectTODB();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
             for(int i = 0; i < dates.size(); i++){
+                if (count == movingAVG+1){
+                    temp = temp - Float.parseFloat(sharesPerDates.get(dates.get(i-movingAVG))) + Float.parseFloat(sharesPerDates.get(dates.get(i)));
+                    avg = temp / movingAVG;
+                }
+                if (count <= movingAVG){
+                    temp = temp + Float.parseFloat(sharesPerDates.get(dates.get(i)));
+                    avg = temp / count;
+                    count++;
+                }
+                PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setDate(1, Date.valueOf(dates.get(i)));
-                pstmt.setFloat(2, Float.valueOf(sharesPerDates.get(dates.get(i))));
+                pstmt.setFloat(2, Float.parseFloat(sharesPerDates.get(dates.get(i))));
+                pstmt.setFloat(3, avg);
                 pstmt.executeUpdate();
             }
 
+
+
         }catch (SQLException e){
-            System.out.println("Error (INSERT)");
             System.out.println(e.getMessage());
         }
     }
-        private void selectAllData(){
-            int  i = 0;
-            int limit = getLimit();
-            String sql = "SELECT date, shares FROM " + share + " ORDER BY DATE DESC LIMIT " +  limit;
-            try{
-                Connection conn = this.connectTODB();
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(sql);
-                System.out.println("\n   Datum       Aktienwert ");
-                while (rs.next()) {
-                    sharesFinal.add(rs.getFloat("shares"));
-                    datesFinal.add((rs.getDate("date").toLocalDate()));
-                    System.out.println(datesFinal.get(i) + "  |  " + sharesFinal.get(i));
-                    i++;
-                }
-
-            }catch (SQLException e){
-                System.out.println("Error (SELECT)");
-                System.out.println(e.getMessage());
+    private void selectAllData(){
+        String sql = "SELECT * FROM " + share + " ORDER BY DATE ASC";
+        try{
+            Connection conn = this.connectTODB();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            System.out.println("\n   Datum       Aktienwert        Gleitender Durchschnitt");
+            while (rs.next()) {
+                System.out.println(rs.getDate("date") + "  |  " + rs.getFloat("shares") + "  |  " + rs.getFloat("avg"));
             }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
         }
-        public int getLimit(){
-            int limit;
-            System.out.print("Gleitender Durchschnitt [20, 38 ,50, 100, 200]: ");
-            limit = reader.nextInt();
-            if (limit == 20 || limit == 38 || limit == 50 || limit == 100 || limit == 200){
-                return limit;
-            }
-            else{
-                System.out.println("Fehler");
-                System.out.println("Standartwert wird übermittelt!");
-                return 200;
-            }
+    }
+    public int getAverage(){
+        int limit;
+        System.out.print("Gleitender Durchschnitt [20, 38 ,50, 100, 200]: ");
+        limit = reader.nextInt();
+        if (limit == 20 || limit == 38 || limit == 50 || limit == 100 || limit == 200){
+            return limit;
         }
-        public float getAVG(){
-            float sharesAVG = 0;
-            float sharesTemp = 0;
-            int count = 0;
-            for(int i = 0; i < sharesFinal.size(); i++){
-                sharesTemp = sharesTemp + sharesFinal.get(i);
-                count++;
-            }
-            sharesAVG = sharesTemp / (count);
-            return sharesAVG;
+        else{
+            System.out.println("Fehler");
+            System.out.println("Standartwert wird übermittelt!");
+            return 200;
         }
-        public ArrayList<Float> getShares(){
-            return sharesFinal;
-        }
-        public ArrayList<LocalDate> getDates(){
-            return datesFinal;
-        }
+    }
     public void db(){
         connect();
         createDatabase();
         createTable();
         insert();
         selectAllData();
-        getAVG();
     }
 }

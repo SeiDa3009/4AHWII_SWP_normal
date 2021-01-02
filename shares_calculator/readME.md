@@ -17,25 +17,19 @@ Anfangs muss kommt eine Abfrage, welche Aktie herausgelesen werden soll (in dies
 Anschließend wird die API aufgerufen und die herausgelesenen Werte werden sortiert in eine HASHMAP gespeichert.
 
 Dann wird die Datenbank mit dem Namen shares.db erstellt.
-Nach der Erzeugung der Datenbank wird ein _TABLE_ mit dem Namen der Aktie und den Variablen _shares_ und _date_ erstellt.
-Die Werte werden dank der Vergabe des Primary Keys nie doppelt von der Hashmap eingelesen. Zum Primary Key zusätzlich habe ich noch ein _UNIQUE_ hinzugefügt, um beim Insert der Daten mit dem Befehl _INSERT OR IGNORE INTO_ arbeiten können.
-Dieser Vorgang erspart einem sehr viel Zeit beim Einlesen.
-Als Nächstes kommt die Abfrage, welchen gleitenden Durchschnitt man nehmen wolle. Diese Zahl limitiert dann zugleich die Ausgabe der Werte. 
-Zusätzlich zur Ausgabe der Werte werden diese noch in eine ArrayList gespeichert, um den gleitenden Durchschnitt zu berechnen.
-(Wird in den Weihnachtsferien mit Select ausgebessert, da es eigentlich unnötig ist; Wollte aber zuerst das Programm zum Laufen bringen)
+Nach der Erzeugung der Datenbank wird ein _TABLE_ mit dem Namen der Aktie und den Variablen _shares_, _date_ und _avg_ erstellt.
+Die Werte werden dank der Vergabe des Primary Keys nie doppelt von der Hashmap eingelesen.
+Als Nächstes kommt die Abfrage, welchen gleitenden Durchschnitt man nehmen wolle.
+Anschließend werden die Werte (Close-Wert, Date, AVG) mit dem Befehl Select ausgegeben.
 
-Zum Schluss wird mit den Werten aus der Datenbank noch ein JAVAFX-Linechart erstellt.
+Zum Schluss wird mit den Werten aus der Datenbank (Select) noch ein JAVAFX-Linechart erstellt.
 Dieser stellt einmal die Close-Werte mit den Daten als Linie dar und einmal den gleitenden Durchschnitt als Linie dar.
-(Hier werden auch unnötige Listen verwendet, die ebenso in den Weihnachtsferien ausgebessert werden)
 
-##### Zusätzlich: 
-Ich wollte die Linien, die über dem gleitenden Durchschnitt liegen, grün färben und die Linien, die unter dem gleitenden Durchschnitt liegen, rot färben.
-Da muss ich mich allerdings noch mal erkundigen, wie ich das Lösen kann. Ebenso habe ich nur den letzten Durchschnittswert berechnet, weil es für mich mehr Sinn gemacht hat. Allerdings habe ich mich jetzt schlau gelesen und hab herausgefunden,
-wie der richtige gleitende Durchschnitt berechnet wird.
-Dies wird natürlich auch in den Weihnachtsferien ausgebessert
-
-Zu guter Letzt kommt noch das Beispielbild (IBM-Aktie):
-![.](https://github.com/SeiDa3009/4AHWII_SWP_normal/blob/master/shares_calculator/ExampleIBM.JPG)
+Zu guter Letzt kommen noch die Beispielbilder (Grün gut | Rot schlecht):
+* Grün
+![.](https://github.com/SeiDa3009/4AHWII_SWP_normal/blob/master/shares_calculator/ExampleGreen.JPG)
+* Rot
+![.](https://github.com/SeiDa3009/4AHWII_SWP_normal/blob/master/shares_calculator/ExampleRed.JPG)
 
 
 

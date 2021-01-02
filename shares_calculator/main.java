@@ -7,23 +7,15 @@ import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 import models.methods;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class main extends Application {
-    public static List<Float> shares = new ArrayList<>();
-    public static List<String> date = new ArrayList<>();
-    public static Float avg;
-
     public static void main(String[] args) {
         methods m1 = new methods();
         m1.db();
-        for(int i = m1.getShares().size()-1; i >= 0; i--){
-            shares.add(m1.getShares().get(i));
-            date.add(m1.getDates().get(i).toString());
-        }
-        avg = m1.getAVG();
         launch(args);
     }
 
@@ -42,30 +34,44 @@ public class main extends Application {
         XYChart.Series series2 = new XYChart.Series();
         series1.setName("Close-Werte");
         series2.setName("Gleitender Durchschnitt");
-
-        for (int i = 0; i < date.size(); i++){
-            series1.getData().add(new XYChart.Data(date.get(i), shares.get(i)));
-            series2.getData().add(new XYChart.Data(date.get(i), avg));
+        Connection conn = DriverManager.getConnection(methods.filename);
+        String sql = "SELECT * FROM " + methods.share + " ORDER BY DATE ASC";
+        try {
+            Statement stmt =  conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()){
+                series1.getData().add(new XYChart.Data(rs.getDate("date").toString(), rs.getFloat("shares")));
+                series2.getData().add(new XYChart.Data(rs.getDate("date").toString(), rs.getFloat("avg")));
+            }
         }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
         lineChart.setCreateSymbols(false);
         Scene scene = new Scene(lineChart,800,600);
         lineChart.getData().addAll(series1, series2);
 
-        /*
-        Überlegungen zum Einfärben:
-
-        float lastShare = 0;
-        for (int i = 0; i < shares.size(); i++) {
-            lastShare = shares.get(i);
-
-            if (lastShare > avg) {
-                series1.getNode().setStyle("-fx-stroke: #006400; ");
-            } else {
-                series2.getNode().setStyle("-fx-stroke: #FB2C00; ");
+        float share = 0;
+        float avg = 0;
+        sql = "SELECT * FROM " + methods.share + " ORDER BY DATE ASC";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()){
+                share = rs.getFloat("shares");
+                avg = rs.getFloat("avg");
             }
-
-            series2.getNode().setStyle("-fx-stroke: black; ");
-        */
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        if (share > avg) {
+            series1.getNode().setStyle("-fx-stroke: #006400; ");
+        } else {
+            series2.getNode().setStyle("-fx-stroke: #FB2C00; ");
+        }
+        series2.getNode().setStyle("-fx-stroke: black; ");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
