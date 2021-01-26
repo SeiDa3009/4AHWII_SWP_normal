@@ -23,9 +23,10 @@ Als Nächstes kommt die Abfrage, welchen gleitenden Durchschnitt man nehmen woll
 Anschließend werden die Werte (Close-Wert, Date, AVG) mit dem Befehl Select ausgegeben.
 
 Zum Schluss wird mit den Werten aus der Datenbank (Select) noch ein JAVAFX-Linechart erstellt.
-Dieser stellt einmal die Close-Werte mit den Daten als Linie dar und einmal den gleitenden Durchschnitt als Linie dar.
-Dabei gilt ist die Close-Werte Linie grün, so handelt es sich um eine gute Aktie.
-Wenn diese Linie Rot ist, handelt es sich um eine schlecht Aktie.
+Dieser stellt einmal die Close-Werte mit dem jeweiligen Datum und einmal den gleitenden Durchschnitt als Linie dar.
+Dazu wurde noch die Y-Achse mit dem Befehlen Upper- and LowerBorder mit zusätzlich 10% des MIN- oder MAX-Wertes begrenzt.
+Dabei gilt ist der Hintergrund grün, so handelt es sich um eine gute Aktie.
+Wenn dieser Hintergrund rot ist, handelt es sich um eine schlecht Aktie.
 
 Zu guter Letzt kommen noch die Beispielbilder. 
 ![Grün](https://github.com/SeiDa3009/4AHWII_SWP_normal/blob/master/shares_calculator/ExampleGreen.JPG)
