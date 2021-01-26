@@ -7,8 +7,11 @@ import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 import models.methods;
 
+import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -52,26 +55,35 @@ public class main extends Application {
         Scene scene = new Scene(lineChart,800,600);
         lineChart.getData().addAll(series1, series2);
 
-        float share = 0;
-        float avg = 0;
-        sql = "SELECT * FROM " + methods.share + " ORDER BY DATE ASC";
+        sql = "SELECT MIN(SHARES), MAX(SHARES) FROM " + methods.share;
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()){
-                share = rs.getFloat("shares");
-                avg = rs.getFloat("avg");
+                yAxis.setLowerBound(Math.round(rs.getFloat("MIN(shares)") - (rs.getFloat("MIN(SHARES)") /10 )));
+                yAxis.setUpperBound(Math.round(rs.getFloat("MAX(shares)") + (rs.getFloat("MAX(SHARES)") /10 )));
+
             }
+        }catch (SQLException e){
+            System.out.println("Range: " + e.getMessage());
         }
-        catch (SQLException e){
+        yAxis.setAutoRanging(false);
+
+        sql = "SELECT * FROM " + methods.share + " ORDER BY DATE DESC LIMIT 1";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()){
+                if (rs.getFloat("shares") > rs.getFloat("avg")) {
+                    scene.getStylesheets().add("greenBackground.css");
+                } else {
+                    scene.getStylesheets().add("redBackground.css");
+                }
+            }
+        }        catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        if (share > avg) {
-            series1.getNode().setStyle("-fx-stroke: #006400; ");
-        } else {
-            series2.getNode().setStyle("-fx-stroke: #FB2C00; ");
-        }
-        series2.getNode().setStyle("-fx-stroke: black; ");
+
         primaryStage.setScene(scene);
         primaryStage.show();
     }
