@@ -16,7 +16,7 @@ public class Database {
 
     public static boolean dbConnect(){
         try {
-            connection = DriverManager.getConnection(DBurl,"root","htlanich123");
+            connection = DriverManager.getConnection(DBurl,"root","password");
             stmt = connection.createStatement();
             System.out.println("Datenbank verknüpft");
             return true;
