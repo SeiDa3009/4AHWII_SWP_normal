@@ -22,7 +22,7 @@ Hierbei wird der ganze Verlauf der Aktie seit Gründung angezeigt.
 
 Hierbei werden nur die letzten 200 Werte angezeigt, also grob gesagt ein bisschen mehr als 1 Jahr.
 
-Allgemein sei gesagt das die graue Linie den Adjusted-Close Wert und die schwarze Linie den gleitenden 200er Mittelwert anzeigt.
+Allgemein sei gesagt, dass die graue Linie den Adjusted-Close Wert und die schwarze Linie den gleitenden 200er Mittelwert anzeigt.
 Zusätzlich wird der Hintergrund entweder grün (letzter Adjusted-Close Wert > gleitender 200er Mittelwert) oder rot (letzter Adjusted-Close Wert < gleitender 200er Mittelwert).
 
 ##### **Was wird dafür benötigt?**
