@@ -15,6 +15,7 @@ Daraufhin werden mit den Daten weiters zwei Graphen mit JavaFx erstellt.
 ![](https://github.com/SeiDa3009/4AHWII_SWP_normal/blob/master/stockMarket/Examples/2021_APRIL_3_full.png)
 
 Hierbei wird der ganze Verlauf der Aktie seit Gründung angezeigt.
+
 2. Der zweite Graph: 
 
 ![](https://github.com/SeiDa3009/4AHWII_SWP_normal/blob/master/stockMarket/Examples/2021_APRIL_3_compact.png)
