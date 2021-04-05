@@ -11,10 +11,10 @@ Für die Datenbank in diesem Programm wurde MySql verwendet.
 Nachdem die Daten erfolgreich in Datenbank mit dem Tablename der Aktie abgespeichert wurde, werden die Werte anschließend dem Benutzer wieder ausgegeben.
 Daraufhin werden mit den Daten weiters zwei Graphen mit JavaFx erstellt. 
 1. Der erste Graph:
-![](https://github.com/SeiDa3009/4AHWII_SWP_normal/tree/master/stockMarket/Examples/2021_APRIL_3_full.png)
+![](https://github.com/SeiDa3009/4AHWII_SWP_normal/blob/master/stockMarket/Examples/2021_APRIL_3_full.png)
 Hierbei wird der ganze Verlauf der Aktie seit Gründung angezeigt.
 2. Der zweite Graph: 
-![](https://github.com/SeiDa3009/4AHWII_SWP_normal/tree/master/stockMarket/Examples/2021_APRIL_3_compact.png)
+![](https://github.com/SeiDa3009/4AHWII_SWP_normal/blob/master/stockMarket/Examples/2021_APRIL_3_compact.png)
 Hierbei werden nur die letzten 200 Werte angezeigt, also grob gesagt ein bisschen mehr als 1 Jahr.
 
 Allgemein sei gesagt das die graue Linie den Adjusted-Close Wert und die schwarze Linie den gleitenden 200er Mittelwert anzeigt.
