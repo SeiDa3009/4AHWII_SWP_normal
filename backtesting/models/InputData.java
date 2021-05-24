@@ -10,26 +10,23 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class InputData {
-    public static Map<LocalDate, Float> dataGetter(String ticker, LocalDate startdate) {
-        Map<LocalDate, Float> stockValues = new TreeMap<>();
+    public static String getDate = "LocalDate.parse((CharSequence) objectTwo.names().get(i))";
+    public static String getClose = "objectTwo.getJSONObject(LocalDate.parse((CharSequence) objectTwo.names().get(i)).toString()).getFloat(\"4. close\"))";
+    public static String getCoefficient = "objectTwo.getJSONObject(LocalDate.parse((CharSequence) objectTwo.names().get(i)).toString()).getFloat(\"8. split coefficient\")";
+
+    public static void dataGetter(String ticker) {
         try{
-            String link = IOUtils.toString(new URL("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + ticker + "&outputsize=full&apikey=N4XI1HLI5LGAYT87"), Charset.forName("UTF-8"));
+            String link = IOUtils.toString(new URL("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=" + ticker + "&outputsize=full&apikey=N4XI1HLI5LGAYT87"), Charset.forName("UTF-8"));
             JSONObject objectOne = new JSONObject(link);
             JSONObject objectTwo = objectOne.getJSONObject("Time Series (Daily)");
-
             for (int i = 0; i < objectTwo.names().length(); ++i) {
-                if(LocalDate.parse((CharSequence) objectTwo.names().get(i)).isAfter(startdate)){
-                    stockValues.put(LocalDate.parse((CharSequence) objectTwo.names().get(i)), (Float.valueOf((String) objectTwo.getJSONObject(objectTwo.names().getString(i)).get("4. close"))));
-                }
+                DBMethods.dbInsertAPIData(ticker, LocalDate.parse((CharSequence) objectTwo.names().get(i)) , objectTwo.getJSONObject(LocalDate.parse((CharSequence) objectTwo.names().get(i)).toString()).getFloat("4. close"), objectTwo.getJSONObject(LocalDate.parse((CharSequence) objectTwo.names().get(i)).toString()).getFloat("8. split coefficient"));
             }
         }catch (IOException e){
             System.out.println("Fehler dataGetter: " + e.getMessage());
         }
-        return stockValues;
     }
 
     public static ArrayList<String> tickerGetter(String file){
