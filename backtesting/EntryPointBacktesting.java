@@ -3,14 +3,16 @@ import models.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Scanner;
 
 public class EntryPointBacktesting {
     static String file = "C:\\Users\\david\\OneDrive\\Schule\\4AHWII\\SWP\\SWP-Rubner\\Normal_github\\Backtesting\\stocks.txt";
     static ArrayList<String> ticker = new ArrayList<>(InputData.tickerGetter(file));
-    static LocalDate startdate = LocalDate.of(2010,1,1);
+    static LocalDate startdate;
 
     public static void main(String[] args) {
-        Double startDepot = 10000.00;
+        Double startDepot = inputStartDepot();
+        startdate = inputStartDate();
         DBMethods.dbConnect();
         for(int i = 0; i < ticker.size(); i++){
 
@@ -19,8 +21,7 @@ public class EntryPointBacktesting {
             strategie3(i,startDepot);
             vergleich(i,startDepot);
         }
-
-
+        DBMethods.dbConnClose();
     }
     public static void strategie1(int i, double startdepot){
         String tableName = ticker.get(i)+"S1";
@@ -125,10 +126,24 @@ public class EntryPointBacktesting {
 
 
     }
-
-
-
-
-
+    public static double inputStartDepot(){
+        Scanner reader = new Scanner(System.in);
+        System.out.print("Startkapital: ");
+        return reader.nextDouble();
+    }
+    public static LocalDate inputStartDate(){
+        Scanner reader = new Scanner(System.in);
+        String date;
+        System.out.print("Startdatum [yyyy-mm-dd]: ");
+        date = reader.nextLine();
+        return LocalDate.parse(date);
+    }
 }
+// Überlegung
+// Wenn Split und Aktie-Inhaber -> Stück mal Coeffizient
+// Close = 10 -> 2er Split -> nächster Close = 5
+// Meinem Programm:
+// Close = 10/2 -> 2er Split -> nächster Close (nach heute)
 
+// Lösung:
+// Stück von Aktien bevor Spilt zu dividieren (Coeffizient)

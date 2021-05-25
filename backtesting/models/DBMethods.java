@@ -133,6 +133,13 @@ public class DBMethods {
         }
         return false;
     }
+    public static void dbConnClose(){
+        try {
+            connection.close();
+        }catch (SQLException e){
+            System.out.println("Methode dbConnClose: " + e.getMessage());
+        }
+    }
 
     //DB-Methods for APIData
     public static boolean dbCreateTableAPIData(String tablename){

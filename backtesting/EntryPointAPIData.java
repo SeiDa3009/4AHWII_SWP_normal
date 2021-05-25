@@ -22,6 +22,7 @@ public class EntryPointAPIData {
             System.out.println("test");
             OtherMethods.avgCalc(tablename);
             System.out.println("Data loading in DB finished");
+            DBMethods.dbConnClose();
 
         }
     }
