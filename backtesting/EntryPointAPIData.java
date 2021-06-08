@@ -17,13 +17,10 @@ public class EntryPointAPIData {
             tablename = InputData.tickerGetter(file).get(i);
             DBMethods.dbCreateTableAPIData(tablename);
             InputData.dataGetter(tablename);
-            System.out.println("1");
             OtherMethods.splitCorrection(tablename);
-            System.out.println("test");
             OtherMethods.avgCalc(tablename);
             System.out.println("Data loading in DB finished");
-            DBMethods.dbConnClose();
-
         }
+        DBMethods.dbConnClose();
     }
 }

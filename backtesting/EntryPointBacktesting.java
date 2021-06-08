@@ -2,7 +2,6 @@ import models.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Scanner;
 
 public class EntryPointBacktesting {
@@ -118,18 +117,18 @@ public class EntryPointBacktesting {
         tablename = ticker.get(i)+"S3";
         double depotS3 = DBMethods.dbGetDepot(tablename);
 
-        System.out.println("Endvergleich des Kapitals");
-        System.out.println("Startkapital: " + startDepot + "$");
-        System.out.println("Strategie 1 (200er): " + String.format("%.2f",depotS1) + "$   %-Veränderung: " + String.format("%.2f",(depotS1/startDepot)*100) + "%");
-        System.out.println("Strategie 2 (200er + 3%): " + String.format("%.2f",depotS2) + "$   %-Veränderung: " + String.format("%.2f",(depotS2/startDepot)*100) + "%");
-        System.out.println("Strategie 3 (Buy-and-Hold): " + String.format("%.2f",depotS3) + "$   %-Veränderung: " + String.format("%.2f",(depotS3/startDepot)*100) + "%");
-
+        System.out.println("Endvergleich des Kapitals (" + ticker.get(i) + ")");
+        System.out.println("Startkapital: " + String.format("%.2f",startDepot));
+        System.out.println("Strategie 1 (200er): " + String.format("%.2f",depotS1) + "$   %-Veränderung: " + String.format("%.2f",((depotS1-startDepot)/startDepot)*100) + "%");
+        System.out.println("Strategie 2 (200er + 3%): " + String.format("%.2f",depotS2) + "$   %-Veränderung: " + String.format("%.2f",((depotS2-startDepot)/startDepot)*100) + "%");
+        System.out.println("Strategie 3 (Buy-and-Hold): " + String.format("%.2f",depotS3) + "$   %-Veränderung: " + String.format("%.2f",((depotS3-startDepot)/startDepot)*100) + "%");
+        System.out.println(" ");
 
     }
     public static double inputStartDepot(){
         Scanner reader = new Scanner(System.in);
-        System.out.print("Startkapital: ");
-        return reader.nextDouble();
+        System.out.print("Startkapital [$]: ");
+        return Math.round(reader.nextDouble()/ticker.size());
     }
     public static LocalDate inputStartDate(){
         Scanner reader = new Scanner(System.in);
@@ -139,11 +138,3 @@ public class EntryPointBacktesting {
         return LocalDate.parse(date);
     }
 }
-// Überlegung
-// Wenn Split und Aktie-Inhaber -> Stück mal Coeffizient
-// Close = 10 -> 2er Split -> nächster Close = 5
-// Meinem Programm:
-// Close = 10/2 -> 2er Split -> nächster Close (nach heute)
-
-// Lösung:
-// Stück von Aktien bevor Spilt zu dividieren (Coeffizient)

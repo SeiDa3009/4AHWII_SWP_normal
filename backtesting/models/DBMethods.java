@@ -1,10 +1,9 @@
 package models;
 
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 public class DBMethods {
 
@@ -91,7 +90,7 @@ public class DBMethods {
     public static void dbDropTable(String tablename){
         try {
             stmt = connection.createStatement();
-            String sql = "DROP TABLE " + tablename;
+            String sql = "DROP TABLE IF EXISTS " + tablename;
             stmt.executeUpdate(sql);
         }catch (SQLException e){
             System.out.println("DB Drop Table: " + e.getMessage());
@@ -140,6 +139,7 @@ public class DBMethods {
             System.out.println("Methode dbConnClose: " + e.getMessage());
         }
     }
+
 
     //DB-Methods for APIData
     public static boolean dbCreateTableAPIData(String tablename){
@@ -203,7 +203,7 @@ public class DBMethods {
         ArrayList<Float> coefficient = new ArrayList<>();
         try {
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT coefficient FROM " + tablename + " ORDER BY date ASC");
+            ResultSet rs = stmt.executeQuery("SELECT coefficient FROM " + tablename + " ORDER BY date DESC");
             while (rs.next()){
                 coefficient.add(rs.getFloat("coefficient"));
             }
@@ -217,6 +217,19 @@ public class DBMethods {
         try {
             stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT close FROM " + tablename + " ORDER BY date ASC");
+            while (rs.next()){
+                close.add(rs.getFloat("close"));
+            }
+        }catch(SQLException e){
+            System.out.println("Methode dbGetClose: " + e.getMessage());
+        }
+        return close;
+    }
+    public static ArrayList<Float> dbGetCloseReverse(String tablename){
+        ArrayList<Float> close = new ArrayList<>();
+        try {
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT close FROM " + tablename + " ORDER BY date DESC");
             while (rs.next()){
                 close.add(rs.getFloat("close"));
             }
@@ -241,3 +254,4 @@ public class DBMethods {
 
 
 }
+

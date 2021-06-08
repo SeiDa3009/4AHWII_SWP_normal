@@ -25,9 +25,7 @@ public class OtherMethods {
     public static void splitCorrection(String tablename){
         ArrayList<Float> adjustedClose = new ArrayList<>();
         ArrayList<Float> coefficient = DBMethods.dbGetCoefficient(tablename);
-        ArrayList<Float> close = DBMethods.dbGetClose(tablename);
-        Collections.reverse(close);
-        Collections.reverse(coefficient);
+        ArrayList<Float> close = DBMethods.dbGetCloseReverse(tablename);
         float divisor = 1;
         float tempcoeff = 1;
 
@@ -43,7 +41,6 @@ public class OtherMethods {
             }
 
         }
-        Collections.reverse(adjustedClose);
         DBMethods.dbInsertAdjustedClose(tablename,adjustedClose);
     }
 }
