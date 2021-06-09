@@ -252,6 +252,32 @@ public class DBMethods {
         return adjustedClose;
     }
 
-
+    //DB-Methods for Graph
+    public static List<Double> dbGetDepotForGraph (String tablename){
+        ArrayList<Double> depot = new ArrayList<>();
+        try{
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT depot FROM " + tablename + " WHERE flag = '0' ORDER BY date ASC");
+            while (rs.next()){
+                depot.add(rs.getDouble("depot"));
+            }
+        }catch (SQLException e){
+            System.out.println("Methode dbGetDepotForGraph: " + e.getMessage());
+        }
+        return depot;
+    }
+    public static List<String> dbGetDateForGraph (String tablename){
+        ArrayList<String> date = new ArrayList<>();
+        try{
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT date FROM " + tablename + " WHERE flag = '0' ORDER BY date ASC");
+            while (rs.next()){
+                date.add(rs.getDate("date").toString());
+            }
+        }catch (SQLException e){
+            System.out.println("Methode dbGetDateForGraph: " + e.getMessage());
+        }
+        return date;
+    }
 }
 

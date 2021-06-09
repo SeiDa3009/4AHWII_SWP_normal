@@ -10,11 +10,9 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class InputData {
-    public static String getDate = "LocalDate.parse((CharSequence) objectTwo.names().get(i))";
-    public static String getClose = "objectTwo.getJSONObject(LocalDate.parse((CharSequence) objectTwo.names().get(i)).toString()).getFloat(\"4. close\"))";
-    public static String getCoefficient = "objectTwo.getJSONObject(LocalDate.parse((CharSequence) objectTwo.names().get(i)).toString()).getFloat(\"8. split coefficient\")";
 
     public static void dataGetter(String ticker) {
         try{
@@ -45,4 +43,6 @@ public class InputData {
         }
         return txtOutput;
     }
+
+
 }

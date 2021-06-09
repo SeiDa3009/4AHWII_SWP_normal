@@ -20,7 +20,9 @@ public class EntryPointBacktesting {
             strategie3(i,startDepot);
             vergleich(i,startDepot);
         }
+        //EntryPointGraph.main(null); 
         DBMethods.dbConnClose();
+        
     }
     public static void strategie1(int i, double startdepot){
         String tableName = ticker.get(i)+"S1";
@@ -137,4 +139,6 @@ public class EntryPointBacktesting {
         date = reader.nextLine();
         return LocalDate.parse(date);
     }
+
+
 }
