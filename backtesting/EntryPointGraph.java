@@ -32,7 +32,6 @@ public class EntryPointGraph extends Application{
         for (int i = 0; i < ticker.size(); i++) {
             try {
                 primaryStage.setTitle("Backtesting of " + ticker.get(i));
-                String tablename = setTablename("S1", i);
                 //Achsen
                 CategoryAxis xAxis = new CategoryAxis();
                 NumberAxis yAxis = new NumberAxis();
@@ -41,52 +40,67 @@ public class EntryPointGraph extends Application{
                 LineChart<String , Number> lineChart = new LineChart<>(xAxis, yAxis);
 
                 XYChart.Series series1 = new XYChart.Series();
+                XYChart.Series series2 = new XYChart.Series();
+                XYChart.Series series3 = new XYChart.Series();
                 series1.setName("Strat 1 (200er)");
+                series1.setName("Strat 2 (200er+3%)");
+                series1.setName("Strat 3 (B&H)");
 
-                for(int j = 0; j < DBMethods.dbGetDateForGraph(tablename).size(); j++) {
-                    series1.getData().add(new XYChart.Data(DBMethods.dbGetDateForGraph(tablename).get(j).toString(), DBMethods.dbGetDepotForGraph(tablename).get(j)));
+                //add data to graph
+                int a = 0;
+                int b = 0;
+                int c = 0;
+                String tablename;
+
+                for(LocalDate d = DBMethods.dbGetFirstDateForGraph(setTablename("S1", i)); d.isBefore(LocalDate.now()); d=d.plusDays(1)) {
+                    if(a < DBMethods.dbGetDateForGraph(setTablename("S1",i)).size()){
+                        if (d.isEqual(LocalDate.parse(DBMethods.dbGetDateForGraph(setTablename("S1", i)).get(a)))){
+                            tablename = setTablename("S1", i);
+                            series1.getData().add(new XYChart.Data(DBMethods.dbGetDateForGraph(tablename).get(a).toString(), DBMethods.dbGetDepotForGraph(tablename).get(a)));
+                            a++;
+                        }
+                    }
+                    if(b < DBMethods.dbGetDateForGraph(setTablename("S2", i)).size()){
+                        if (d.isEqual(LocalDate.parse(DBMethods.dbGetDateForGraph(setTablename("S2", i)).get(b)))){
+                            tablename = setTablename("S2", i);
+                            series2.getData().add(new XYChart.Data(DBMethods.dbGetDateForGraph(tablename).get(b).toString(), DBMethods.dbGetDepotForGraph(tablename).get(b)));
+                            b++;
+                        }
+                    }
+                    if(c < DBMethods.dbGetDateForGraph(setTablename("S3", i)).size()){
+                        if (d.isEqual(LocalDate.parse(DBMethods.dbGetDateForGraph(setTablename("S3", i)).get(c)))){
+                            tablename = setTablename("S3", i);
+                            series3.getData().add(new XYChart.Data(DBMethods.dbGetDateForGraph(tablename).get(c).toString(), DBMethods.dbGetDepotForGraph(tablename).get(c)));
+                            c++;
+                        }
+                    }
+
                 }
+                System.out.println(series1.getData());
+                System.out.println(series2.getData());
+                System.out.println(series3.getData());
+
+
                 lineChart.setCreateSymbols(false);
                 Scene scene = new Scene(lineChart,800,600);
-                lineChart.getData().addAll(series1);
 
+                lineChart.getData().clear();
+                lineChart.layout();
+
+                lineChart.getData().add(series1);
+                lineChart.getData().add(series2);
+                lineChart.getData().add(series3);
 
 //                yAxis.setLowerBound(Math.round(Collections.min(DBMethods.dbGetDepotForGraph(tablename)) - (Collections.min(DBMethods.dbGetDepotForGraph(tablename)) /10)));
 //                yAxis.setUpperBound(Math.round(Collections.max(DBMethods.dbGetDepotForGraph(tablename)) + (Collections.max(DBMethods.dbGetDepotForGraph(tablename)) /10)));
 //                yAxis.setAutoRanging(false);
 
                 WritableImage image = scene.snapshot(null);
-                File file = new File("C:\\Users\\david\\Documents\\Schule\\SWP Rubner\\Aktien\\Backtesting\\" + ticker.get(i) + "Strat1.jpg");
+                File file = new File("C:\\Users\\david\\Documents\\Schule\\SWP Rubner\\Aktien\\Backtesting\\" + ticker.get(i) + ".jpg");
                 ImageIO.write(SwingFXUtils.fromFXImage(image, null), "PNG", file);
                 primaryStage.setScene(scene);
                 primaryStage.close();
 
-                //Graph 2. Strat
-                primaryStage.setTitle("Backtesting of " + ticker.get(i));
-                tablename = setTablename("S2", i);
-                //Achsen
-                LineChart<String , Number> lineChart2 = new LineChart<>(xAxis, yAxis);
-
-                XYChart.Series series2 = new XYChart.Series();
-                series2.setName("Strat 2 (200er+3%)");
-
-                for(int j = 0; j < DBMethods.dbGetDateForGraph(tablename).size(); j++) {
-                    series2.getData().add(new XYChart.Data(DBMethods.dbGetDateForGraph(tablename).get(j).toString(), DBMethods.dbGetDepotForGraph(tablename).get(j)));
-                }
-                lineChart2.setCreateSymbols(false);
-                scene = new Scene(lineChart2,800,600);
-                lineChart2.getData().addAll(series2);
-
-
-//                yAxis.setLowerBound(Math.round(Collections.min(DBMethods.dbGetDepotForGraph(tablename)) - (Collections.min(DBMethods.dbGetDepotForGraph(tablename)) /10)));
-//                yAxis.setUpperBound(Math.round(Collections.max(DBMethods.dbGetDepotForGraph(tablename)) + (Collections.max(DBMethods.dbGetDepotForGraph(tablename)) /10)));
-//                yAxis.setAutoRanging(false);
-
-                image = scene.snapshot(null);
-                file = new File("C:\\Users\\david\\Documents\\Schule\\SWP Rubner\\Aktien\\Backtesting\\" + ticker.get(i) + "Strat2.jpg");
-                ImageIO.write(SwingFXUtils.fromFXImage(image, null), "PNG", file);
-                primaryStage.setScene(scene);
-                primaryStage.close();
             }catch (Exception e){
                 e.printStackTrace();
             }

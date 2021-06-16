@@ -279,5 +279,17 @@ public class DBMethods {
         }
         return date;
     }
+    public static LocalDate dbGetFirstDateForGraph (String tablename){
+        try{
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT date FROM " + tablename + " WHERE flag = '0' ORDER BY date ASC limit 1");
+            if (rs.next()){
+                return (rs.getDate("date").toLocalDate());
+            }
+        }catch (SQLException e){
+            System.out.println("Methode dbGetFirstDateForGraph: " + e.getMessage());
+        }
+        return null;
+    }
 }
 

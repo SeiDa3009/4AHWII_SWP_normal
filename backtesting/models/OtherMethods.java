@@ -41,6 +41,7 @@ public class OtherMethods {
             }
 
         }
+        Collections.reverse(adjustedClose);
         DBMethods.dbInsertAdjustedClose(tablename,adjustedClose);
     }
 }
