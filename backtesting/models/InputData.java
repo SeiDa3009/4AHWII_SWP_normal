@@ -46,14 +46,15 @@ public class InputData {
     }
     public static double inputStartDepot(ArrayList<String> ticker){
         Scanner reader = new Scanner(System.in);
-        double depot = 0.0;
+        double depot;
         int i = 0;
 
         do {
+            depot = 0.0;
             i++;
             System.out.print("Startkapital [$]: ");
             depot = Math.round(reader.nextDouble()/ticker.size());
-        }while (depot < 0 && i <= 2);
+        }while (depot < 0.0 && i <= 2);
         if (i > 3){
             System.exit(0);
         }
@@ -62,9 +63,10 @@ public class InputData {
     public static LocalDate inputStartDate(ArrayList<String> ticker){
         Scanner reader = new Scanner(System.in);
         LocalDate date = null;
-        boolean check = false;
+        boolean check;
         int i = 0;
         do{
+            check = false;
             i++;
             System.out.print("Startdatum [yyyy-mm-dd]: ");
             try {

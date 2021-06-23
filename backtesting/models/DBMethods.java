@@ -268,11 +268,19 @@ public class DBMethods {
     }
     public static List<String> dbGetDateForGraph (String tablename){
         ArrayList<String> date = new ArrayList<>();
+        String dateString;
+        String dateParts[];
+        String year, month, day;
         try{
             stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT date FROM " + tablename + " WHERE flag = '0' ORDER BY date ASC");
             while (rs.next()){
-                date.add(rs.getDate("date").toString());
+                dateString = (rs.getDate("date")).toString();
+                dateParts = dateString.split("-");
+                day = dateParts[0];
+                month = dateParts[1];
+                year = dateParts[2];
+                date.add((year + month + day));
             }
         }catch (SQLException e){
             System.out.println("Methode dbGetDateForGraph: " + e.getMessage());

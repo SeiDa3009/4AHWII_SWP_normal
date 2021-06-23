@@ -1,1 +1,5 @@
-GME
+atvi
+amzn
+ibm
+tsla
+ptc

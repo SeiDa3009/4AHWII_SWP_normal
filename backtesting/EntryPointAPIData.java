@@ -19,7 +19,7 @@ public class EntryPointAPIData {
             InputData.dataGetter(tablename);
             OtherMethods.splitCorrection(tablename);
             OtherMethods.avgCalc(tablename);
-            System.out.println("Data loading in DB finished [" + i+1 + "/" + InputData.tickerGetter(file).size() + "]");
+            System.out.println("Data loading in DB finished [" + (i+1) + "/" + InputData.tickerGetter(file).size() + "]");
             DBMethods.dbConnClose();
         }
     }

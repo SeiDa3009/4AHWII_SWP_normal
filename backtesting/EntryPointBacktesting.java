@@ -20,8 +20,8 @@ public class EntryPointBacktesting {
             StratMethods.strategie3(i,startDepot,startdate,ticker);
             OutputMethods.vergleich(i,startDepot,ticker);
         }
-        EntryPointGraph.main(null);
         OutputMethods.sumDepotOutput(startDepot,ticker);
+        //EntryPointGraph.main(null);   funktioniert nicht ganz
         DBMethods.dbConnClose();
     }
 }

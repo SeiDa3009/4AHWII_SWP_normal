@@ -43,43 +43,23 @@ public class EntryPointGraph extends Application{
                 XYChart.Series series2 = new XYChart.Series();
                 XYChart.Series series3 = new XYChart.Series();
                 series1.setName("Strat 1 (200er)");
-                series1.setName("Strat 2 (200er+3%)");
-                series1.setName("Strat 3 (B&H)");
+                series2.setName("Strat 2 (200er+3%)");
+                series3.setName("Strat 3 (B&H)");
 
                 //add data to graph
-                int a = 0;
-                int b = 0;
-                int c = 0;
                 String tablename;
-
-                for(LocalDate d = DBMethods.dbGetFirstDateForGraph(setTablename("S1", i)); d.isBefore(LocalDate.now()); d=d.plusDays(1)) {
-                    if(a < DBMethods.dbGetDateForGraph(setTablename("S1",i)).size()){
-                        if (d.isEqual(LocalDate.parse(DBMethods.dbGetDateForGraph(setTablename("S1", i)).get(a)))){
-                            tablename = setTablename("S1", i);
-                            series1.getData().add(new XYChart.Data(DBMethods.dbGetDateForGraph(tablename).get(a).toString(), DBMethods.dbGetDepotForGraph(tablename).get(a)));
-                            a++;
-                        }
-                    }
-                    if(b < DBMethods.dbGetDateForGraph(setTablename("S2", i)).size()){
-                        if (d.isEqual(LocalDate.parse(DBMethods.dbGetDateForGraph(setTablename("S2", i)).get(b)))){
-                            tablename = setTablename("S2", i);
-                            series2.getData().add(new XYChart.Data(DBMethods.dbGetDateForGraph(tablename).get(b).toString(), DBMethods.dbGetDepotForGraph(tablename).get(b)));
-                            b++;
-                        }
-                    }
-                    if(c < DBMethods.dbGetDateForGraph(setTablename("S3", i)).size()){
-                        if (d.isEqual(LocalDate.parse(DBMethods.dbGetDateForGraph(setTablename("S3", i)).get(c)))){
-                            tablename = setTablename("S3", i);
-                            series3.getData().add(new XYChart.Data(DBMethods.dbGetDateForGraph(tablename).get(c).toString(), DBMethods.dbGetDepotForGraph(tablename).get(c)));
-                            c++;
-                        }
-                    }
-
+                tablename = setTablename("S1", i);
+                for(int k = 0; k < DBMethods.dbGetDateForGraph(tablename).size(); k++){
+                    series1.getData().add(new XYChart.Data(DBMethods.dbGetDateForGraph(tablename).get(k), DBMethods.dbGetDepotForGraph(tablename).get(k)));
                 }
-                System.out.println(series1.getData());
-                System.out.println(series2.getData());
-                System.out.println(series3.getData());
-
+                tablename = setTablename("S2", i);
+                for(int k = 0; k < DBMethods.dbGetDateForGraph(tablename).size(); k++){
+                    series2.getData().add(new XYChart.Data(DBMethods.dbGetDateForGraph(tablename).get(k), DBMethods.dbGetDepotForGraph(tablename).get(k)));
+                }
+                tablename = setTablename("S3", i);
+                for(int k = 0; k < DBMethods.dbGetDateForGraph(tablename).size(); k++){
+                    series3.getData().add(new XYChart.Data(DBMethods.dbGetDateForGraph(tablename).get(k), DBMethods.dbGetDepotForGraph(tablename).get(k)));
+                }
 
                 lineChart.setCreateSymbols(false);
                 Scene scene = new Scene(lineChart,800,600);
@@ -90,10 +70,6 @@ public class EntryPointGraph extends Application{
                 lineChart.getData().add(series1);
                 lineChart.getData().add(series2);
                 lineChart.getData().add(series3);
-
-//                yAxis.setLowerBound(Math.round(Collections.min(DBMethods.dbGetDepotForGraph(tablename)) - (Collections.min(DBMethods.dbGetDepotForGraph(tablename)) /10)));
-//                yAxis.setUpperBound(Math.round(Collections.max(DBMethods.dbGetDepotForGraph(tablename)) + (Collections.max(DBMethods.dbGetDepotForGraph(tablename)) /10)));
-//                yAxis.setAutoRanging(false);
 
                 WritableImage image = scene.snapshot(null);
                 File file = new File("C:\\Users\\david\\Documents\\Schule\\SWP Rubner\\Aktien\\Backtesting\\" + ticker.get(i) + ".jpg");
@@ -108,5 +84,5 @@ public class EntryPointGraph extends Application{
     }
     public String setTablename(String strat, int i){
         return ticker.get(i) + strat.toUpperCase();
-}
+    }
 }
