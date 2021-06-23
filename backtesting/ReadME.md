@@ -26,7 +26,7 @@ Zu guter Letzt wird das Enddepot noch ausgegeben.
 
 
 ##### **Graph**
-![](C:\Users\david\Documents\Schule\SWP Rubner\Aktien\Backtesting\atvi.jpg)
+![](C:\\Users\\david\\Documents\\Schule\\SWP Rubner\\Aktien\\Backtesting\\ATVI.jpg)
 
 ##### **Was wird dafür benötigt?**
 - [MySqlConnector](https://dev.mysql.com/downloads/windows/installer/8.0.html)
