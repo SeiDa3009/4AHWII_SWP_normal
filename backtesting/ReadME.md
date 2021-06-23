@@ -12,23 +12,21 @@ Diese Schritte bis auf die Erstellung der Datenbank wird so oft wiederholt wie A
 
 - EntryPointBacktesting: 
 Hier muss zuerst der User mittels Eingabe das Startkapital und das Startdatum angegeben werden. Falls, inkorrekte Werte eingegeben wurden, hat der User 3 mal die Chance sein eingegebene Werte zu korrigieren, ansonsten wird das Programm beendet.
-Anschließend beginnt die Loop mit der Anzahl der Aktienticker. 
-1. Der erste Graph:
+Anschließend beginnt die Loop mit der Anzahl der Aktienticker. Jetzt werden die verschiedenen Strategien durchlaufen:
+	1. Strategie 1 | 200er avg
+	Als erstes wird eine dummyZeile in die Tabelle eingefügt. Danach wird überprüft ob zuletzt gekauft oder verkauft wurde. Je nach dem ob gekauft oder verkauft wird, wird überprüft ob close >/< 200er avg.
+	Wenn der Fall eintritt, wird verkauft bzw. gekauft. Am letzten möglichen Tag wird, falls noch nicht verkauft wurde verkauft.
+	2. Strategie 2 | 200er avg + 3%
+	Als erstes wird eine dummyZeile in die Tabelle eingefügt. Danach wird überprüft ob zuletzt gekauft oder verkauft wurde. Je nach dem ob gekauft oder verkauft wird, wird überprüft ob close >/< 200er avg + 3%.
+	Wenn der Fall eintritt, wird verkauft bzw. gekauft. Am letzten möglichen Tag wird, falls noch nicht verkauft wurde verkauft.
+	3. Strategie 3 | Buy & Hold
+	Als erstes wird eine dummyZeile in die Tabelle eingefügt. Danach wird am erst möglichen Tag gekauft und am letzmöglichen verkauft.
 
-![](https://github.com/SeiDa3009/4AHWII_SWP_normal/blob/master/stockMarket/Examples/2021_APRIL_3_full.png)
+Zu guter Letzt wird das Enddepot noch ausgegeben.
 
-Hierbei wird der ganze Verlauf der Aktie seit Gründung angezeigt.
 
-2. Der zweite Graph: 
-
-![](https://github.com/SeiDa3009/4AHWII_SWP_normal/blob/master/stockMarket/Examples/2021_APRIL_3_compact.png)
-
-Hierbei werden nur die letzten 200 Werte angezeigt, also grob gesagt ein bisschen mehr als 1 Jahr.
-
-Allgemein sei gesagt, dass die graue Linie den Adjusted-Close Wert und die schwarze Linie den gleitenden 200er Mittelwert anzeigt.
-Zusätzlich wird der Hintergrund entweder grün (letzter Adjusted-Close Wert > gleitender 200er Mittelwert) oder rot (letzter Adjusted-Close Wert < gleitender 200er Mittelwert).
-
-Das ganze Programm (cmd Datei) wird dann nur noch in der Windows Aufgabenplannung eingefügt und schon wird das Programm je nach Einstellung (z.B. täglich) ausgeführt.
+##### **Graph**
+![](C:\Users\david\Documents\Schule\SWP Rubner\Aktien\Backtesting\atvi.jpg)
 
 ##### **Was wird dafür benötigt?**
 - [MySqlConnector](https://dev.mysql.com/downloads/windows/installer/8.0.html)
